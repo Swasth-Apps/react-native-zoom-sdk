@@ -22,6 +22,7 @@ import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.MeetingError;
 import us.zoom.sdk.MeetingService;
 import us.zoom.sdk.MeetingServiceListener;
+import us.zoom.sdk.InMeetingServiceListener;
 
 import us.zoom.sdk.StartMeetingOptions;
 import us.zoom.sdk.StartMeetingParamsWithoutLogin;
@@ -31,7 +32,7 @@ import us.zoom.sdk.JoinMeetingParams;
 
 import com.mokriya.zoomus.RNZoomUsBridgeHelper;
 
-public class RNZoomUsBridgeModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, MeetingServiceListener, LifecycleEventListener {
+public class RNZoomUsBridgeModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, MeetingServiceListener, LifecycleEventListener,InMeetingServiceListener {
 
     private final static String TAG = "RNZoomUsBridge";
     private final ReactApplicationContext reactContext;
@@ -119,6 +120,11 @@ public class RNZoomUsBridgeModule extends ReactContextBaseJavaModule implements 
 
         StartMeetingOptions opts = new StartMeetingOptions();
         StartMeetingParamsWithoutLogin params = new StartMeetingParamsWithoutLogin();
+
+        opts.no_invite = true;
+        opts.no_dial_in_via_phone = true;
+        opts.no_dial_out_to_phone = true;
+
         params.displayName = displayName;
         params.meetingNo = meetingNo;
         params.userId = userId;
@@ -216,6 +222,22 @@ public class RNZoomUsBridgeModule extends ReactContextBaseJavaModule implements 
         WritableMap params = Arguments.createMap();
         params.putString("eventProperty", "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
                 sendEvent(reactContext, "meetingStatusChanged", params);
+    }
+
+    @Override
+    public void onMeetingUserLeave() {
+        Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+
+        WritableMap params = Arguments.createMap();
+        params.putString("eventProperty", "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+                sendEvent(reactContext, "meetingEnded", params);
+    }
+    @Override
+    public void onMeetingLeaveComplete() {
+        Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+        WritableMap params = Arguments.createMap();
+        params.putString("eventProperty", "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+                sendEvent(reactContext, "meetingEnded", params);
     }
 
     private void registerListener() {
