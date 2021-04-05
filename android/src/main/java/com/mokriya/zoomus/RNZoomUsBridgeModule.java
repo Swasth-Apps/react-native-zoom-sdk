@@ -226,17 +226,17 @@ public class RNZoomUsBridgeModule extends ReactContextBaseJavaModule implements 
 
     @Override
     public void onMeetingUserLeave() {
-        Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+        Log.i(TAG, "onMeetingStatusChanged, meetingStatus= Leave");
 
         WritableMap params = Arguments.createMap();
-        params.putString("eventProperty", "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+        params.putString("eventProperty", "onMeetingStatusChanged, meetingStatus= Leave");
                 sendEvent(reactContext, "meetingEnded", params);
     }
     @Override
     public void onMeetingLeaveComplete() {
-        Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+        Log.i(TAG, "onMeetingStatusChanged, meetingStatus= Endd");
         WritableMap params = Arguments.createMap();
-        params.putString("eventProperty", "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+        params.putString("eventProperty", "onMeetingStatusChanged, meetingStatus=Endd");
                 sendEvent(reactContext, "meetingEnded", params);
     }
 
