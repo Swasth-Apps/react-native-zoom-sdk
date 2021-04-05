@@ -251,11 +251,7 @@ public class RNZoomUsBridgeModule extends ReactContextBaseJavaModule implements 
 
     private void unregisterListener() {
         Log.i(TAG, "unregisterListener");
-        ZoomSDK zoomSDK = ZoomSDK.getInstance();
-        if(zoomSDK.isInitialized()) {
-        MeetingService meetingService = zoomSDK.getMeetingService();
-        meetingService.removeListener(this);
-        }
+        sendEvent(reactContext, "meetingEnded", params);
     }
 
     // React LifeCycle
