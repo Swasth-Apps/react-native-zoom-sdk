@@ -251,7 +251,9 @@ public class RNZoomUsBridgeModule extends ReactContextBaseJavaModule implements 
 
     private void unregisterListener() {
         Log.i(TAG, "unregisterListener");
+                params.putString("eventProperty", "onMeetingStatusChanged, Meeting Ended ");
         sendEvent(reactContext, "meetingEnded", params);
+             sendEvent(reactContext, "meetingStatusChanged", params);
     }
 
     // React LifeCycle
